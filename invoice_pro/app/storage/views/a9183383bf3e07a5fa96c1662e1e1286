@@ -1,0 +1,90 @@
+<div class="col-md-12 col-lg-8">
+	<h3><?php echo trans('invoice.payments'); ?></h3>
+
+	<div class="row">
+	<div class="col-md-6">		
+	<?php echo Form::open(array('url' => 'payment', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<label for="value"><?php echo trans('invoice.new_value'); ?></label>
+		<div class="input-group">
+			<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo Input::old('value'); ?>" data-parsley-errors-container=".group1">
+
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+			</span>	
+		</div>
+		
+		<div class="group1"></div>
+		<?php echo $errors->first('value', '<p class="error">:messages</p>');?>
+		
+	<?php echo Form::close(); ?>
+
+	</div>
+	</div>
+	<div class="clearfix"></div>		
+
+	<div class="table-responsive">
+		<table class="table top20">
+			<thead>
+				<tr>
+					<th><?php echo trans('invoice.crt'); ?>.</th>
+					<th><?php echo trans('invoice.payments'); ?></th>
+					<th class="col-md-4 col-4"><?php echo trans('invoice.action'); ?></th>
+					<th class="small"><?php echo trans('invoice.action'); ?></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			
+				<?php foreach($payments as $crt => $v): ?>
+			
+				<tr>
+					<td> 
+						<?php echo $crt + 1; ?> 
+					</td>
+					
+					<td> 
+						<?php echo $v->name; ?>
+
+					</td>
+					
+					<td>
+						<?php echo Form::open(array('url' => 'payment/' . $v->id, 'role' => 'form', 'method' => 'PUT')); ?>
+
+						
+						<div class="input-group">
+							<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo $v->name; ?>">
+							
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.update'); ?></button>	
+							</span>	
+						</div>		
+						
+						<?php echo Form::close(); ?>						
+					</td>
+					
+					<td>
+						<a  class="btn btn-danger solsoConfirm" data-toggle="modal" data-target="#solsoDeleteModal" data-url="<?php echo URL::to('payment/' . $v->id); ?>"><i class="fa fa-trash"></i> <?php echo trans('invoice.delete'); ?></a>
+					</td>
+				</tr>
+				
+				<?php endforeach; ?>
+				
+			</tbody>
+			
+			<?php if( sizeof($payments) == 0 ): ?>
+			
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<?php echo trans('invoice.no_data'); ?>
+
+					</td>
+				</tr>
+			</tfoot>
+
+			<?php endif; ?>	
+		</table>
+	</div>
+</div>

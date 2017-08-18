@@ -1,0 +1,114 @@
+<div class="col-md-12">
+	<?php if(Auth::user()->role_id != 3): ?>
+		<h3><?php echo trans('invoice.company'); ?></h3>
+	<?php else: ?>
+		<h3><?php echo trans('invoice.name'); ?></h3>
+	<?php endif; ?>
+</div>		
+
+	<?php echo Form::open(array('url' => 'setting/' . Auth::id(), 'role' => 'form', 'method' => 'PUT', 'class' => 'solsoForm')); ?>
+
+	
+	<div class="col-md-6 col-lg-4">
+		<div class="form-group">
+			<label for="name"><?php echo trans('invoice.name'); ?></label>
+			<input type="text" name="name" class="form-control required" autocomplete="off" value="<?php echo Input::old('name') ? Input::old('name') : $company->name; ?>">
+			
+			<?php echo $errors->first('name', '<p class="error">:messages</p>');?>
+		</div>		
+		
+		<?php if(Auth::user()->role_id != 3): ?>
+			<div class="form-group">
+				<label for="country"><?php echo trans('invoice.country'); ?></label>
+				<input type="text" name="country" class="form-control required" autocomplete="off" value="<?php echo Input::old('country') ? Input::old('country') : $company->country; ?>">
+				
+				<?php echo $errors->first('country', '<p class="error">:messages</p>');?>
+			</div>		
+
+			<div class="form-group">
+				<label for="state"><?php echo trans('invoice.province_state'); ?></label>
+				<input type="text" name="state" class="form-control required" autocomplete="off" value="<?php echo Input::old('state') ? Input::old('state') : $company->state; ?>">
+				
+				<?php echo $errors->first('state', '<p class="error">:messages</p>');?>
+			</div>			
+			
+			<div class="form-group">
+				<label for="city"><?php echo trans('invoice.city'); ?></label>
+				<input type="text" name="city" class="form-control required" autocomplete="off" value="<?php echo Input::old('city') ? Input::old('city') : $company->city; ?>">
+				
+				<?php echo $errors->first('city', '<p class="error">:messages</p>');?>
+			</div>
+
+			<div class="form-group">
+				<label for="zip"><?php echo trans('invoice.zip_code'); ?></label>
+				<input type="text" name="zip" class="form-control required" autocomplete="off" value="<?php echo Input::old('zip') ? Input::old('zip') : $company->zip; ?>">
+				
+				<?php echo $errors->first('zip', '<p class="error">:messages</p>');?>
+			</div>
+
+			<div class="form-group">
+				<label for="address"><?php echo trans('invoice.address'); ?></label>
+				<input type="text" name="address" class="form-control required" autocomplete="off" value="<?php echo Input::old('address') ? Input::old('address') : $company->address; ?>">
+				
+				<?php echo $errors->first('address', '<p class="error">:messages</p>');?>
+			</div>	
+		<?php endif; ?>	
+	</div>
+	
+	<?php if(Auth::user()->role_id != 3): ?>
+		<div class="col-md-6 col-lg-4">		
+			<div class="form-group">
+				<label for="contact"><?php echo trans('invoice.contact'); ?></label>
+				<input type="text" name="contact" class="form-control required" autocomplete="off" value="<?php echo Input::old('contact') ? Input::old('contact') : $company->contact; ?>">
+				
+				<?php echo $errors->first('contact', '<p class="error">:messages</p>');?>
+			</div>				
+			
+			<div class="form-group">
+				<label for="phone"><?php echo trans('invoice.phone'); ?></label>
+				<input type="text" name="phone" class="form-control required" autocomplete="off" value="<?php echo Input::old('phone') ? Input::old('phone') : $company->phone; ?>">
+				
+				<?php echo $errors->first('phone', '<p class="error">:messages</p>');?>
+			</div>	
+
+			<div class="form-group">
+				<label for="email"><?php echo trans('invoice.email'); ?> => <span class="lowercase"><?php echo trans('invoice.send_emails_to_clients'); ?></span></label>
+				<input type="email" name="email" class="form-control required" autocomplete="off" 
+				title="Infomation" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.send_emails_to_clients'); ?>"
+				value="<?php echo Input::old('email') ? Input::old('email') : $company->email; ?>">
+				
+				<?php echo $errors->first('email', '<p class="error">:messages</p>');?>
+			</div>		
+
+			<div class="form-group">
+				<label for="website"><?php echo trans('invoice.website'); ?></label>
+				<input type="url" name="website" class="form-control" autocomplete="off" value="<?php echo Input::old('website') ? Input::old('website') : $company->website; ?>">
+				
+				<?php echo $errors->first('website', '<p class="error">:messages</p>');?>
+			</div>			
+			
+			<div class="form-group">
+				<label for="bank"><?php echo trans('invoice.bank'); ?></label>
+				<input type="text" name="bank" class="form-control" autocomplete="off" value="<?php echo Input::old('bank') ? Input::old('bank') : $company->bank; ?>">
+			</div>	
+
+			<div class="form-group">
+				<label for="bank_account"><?php echo trans('invoice.bank_account'); ?></label>
+				<input type="text" name="bank_account" class="form-control" autocomplete="off" value="<?php echo Input::old('bank_account') ? Input::old('bank_account') : $company->bank_account; ?>">
+			</div>			
+		</div>
+		<div class="clearfix"></div>
+		
+		<div class="col-md-12 col-lg-8">
+			<div class="form-group">
+				<label for="description"><?php echo trans('invoice.description'); ?></label>
+				<textarea name="description" class="form-control"  rows="7" autocomplete="off"><?php echo Input::old('description') ? Input::old('description') : $company->description; ?></textarea>
+			</div>	
+		</div>
+	<?php endif; ?>	
+	
+	<div class="form-group col-md-12">
+		<button type="submit" class="btn btn-success btn-lg"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+	</div>
+	
+<?php echo Form::close(); ?>

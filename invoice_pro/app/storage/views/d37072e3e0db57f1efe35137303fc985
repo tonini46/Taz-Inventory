@@ -1,0 +1,33 @@
+<div class="col-md-12 col-lg-6">
+	<h3><?php echo trans('invoice.logo'); ?></h3>
+
+	<?php if( isset($logo->name) ): ?>
+
+		<img src="<?php echo URL::to('public/upload/' . $logo->name); ?>" class="img-responsive thumbnail">
+
+		<?php echo Form::open(array('url' => 'upload/' . $logo->id, 'role' => 'form', 'method' => 'PUT', 'class' => 'solsoForm', 'files' => 'true')); ?>
+
+	
+	<?php else: ?>	
+	
+		<div role="alert" class="alert alert-warning fade in top20">
+			<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_logo'); ?>
+
+		</div>		
+	
+		<?php echo Form::open(array('url' => 'upload', 'role' => 'form', 'class' => 'solsoForm', 'files' => 'true')); ?>
+
+		
+	<?php endif; ?>
+
+		<div class="form-group">
+			<label for="image"><?php echo trans('invoice.upload_logo'); ?> => <span class="lowercase"><?php echo trans('invoice.allowed_file_extensions'); ?>: 'jpg', 'jpeg', 'gif', 'png', 'bmp'</span></label>
+			<input type="file" name="image" class="solsoFileInput required" autocomplete="off" value="<?php echo Input::old('image'); ?>">
+		</div>
+
+		<?php echo $errors->first('image', '<p class="error">:messages</p>');?>
+		
+	<?php echo Form::close(); ?>
+
+	
+</div>

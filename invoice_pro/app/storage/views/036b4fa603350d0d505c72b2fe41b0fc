@@ -1,0 +1,113 @@
+<div class="table-responsive">
+	<table class="table table-striped solsoTable">
+		<thead>
+			<tr>
+				<th><?php echo trans('invoice.crt'); ?>.</th>
+				<th><?php echo trans('invoice.number'); ?></th>
+				<th><?php echo trans('invoice.from'); ?></th>
+				<th class="text-right"><?php echo trans('invoice.amount'); ?></th>
+				<th class="text-right"><?php echo trans('invoice.paid'); ?></th>
+				<th class="text-right"><?php echo trans('invoice.balance'); ?></th>
+				<th class="text-center"><?php echo trans('invoice.due_date'); ?></th>
+				<th class="small"><?php echo trans('invoice.status'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+
+			<?php if($invoicesReceived): ?>
+				<?php foreach($invoicesReceived as $crt => $v): ?>
+			
+				<tr>
+					<td>
+						<?php echo $crt+1; ?>
+
+					</td>
+
+					<td>
+						<?php echo $v->number; ?>
+
+					</td>
+					
+					<td>
+						<?php echo $v->company; ?>
+
+					</td>						
+					
+					<td class="text-right">
+						<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->amount; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?> 
+					</td>					
+					
+					<td class="text-right">
+						<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->paid; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?>
+
+					</td>						
+					
+					<td class="text-right">
+						<?php echo $v->position == 1 ? $v->currency : ''; ?> 
+						
+						<?php if( $v->status == 'paid' ): ?>
+							0
+						<?php else: ?>
+							- <?php echo round($v->amount, 2) - round($v->paid, 2); ?>
+
+						<?php endif; ?>
+						
+						<?php echo $v->position == 2 ? $v->currency : ''; ?>
+
+					</td>						
+					
+					<td class="text-center">
+						<?php echo $v->due_date; ?>
+
+					</td>	
+					
+					<td class="small">
+						<span class="label label-<?php echo str_replace(' ', '-', $v->status); ?> ">
+							<?php echo trans('invoice.' . str_replace(' ', '_', $v->status)); ?>
+
+						</span>
+					</td>
+
+					<td>		
+						<div class="dropdown">
+							<button class="btn solso-pdf dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+								<?php echo trans('invoice.export'); ?>
+
+								<span class="caret"></span>
+							</button>
+						
+							<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="<?php echo URL::to('pdf/received/' . $v->id); ?>">
+										<?php echo trans('invoice.export_pdf'); ?>
+
+									</a>
+								</li>
+								
+								<li role="presentation">
+									<a role="menuitem" tabindex="-1" href="<?php echo URL::to('excel/received/' . $v->id); ?>">
+										<?php echo trans('invoice.export_excel'); ?>
+
+									</a>
+								</li>
+							</ul>
+						</div>
+					</td>
+
+					<td class="small">		
+						<a class="btn btn-info" href="<?php echo URL::to('invoice/received/' . $v->id); ?>">
+							<i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?>
+
+						</a>
+					</td>	
+				</tr>
+		
+				<?php endforeach; ?>
+			<?php endif; ?>			
+		
+		</tbody>
+	</table>	
+</div>

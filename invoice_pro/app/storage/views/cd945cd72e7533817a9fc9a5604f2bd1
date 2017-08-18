@@ -1,0 +1,29 @@
+<div class="col-md-6 col-lg-4">
+	<h3><?php echo trans('invoice.default_language'); ?></h3>
+	
+	<?php echo Form::open(array('url' => 'setting/defaultLanguage', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+	
+		<div class="form-group">
+			<select name="language" class="form-control required solsoSelect2">
+				
+				<?php if(isset($defaultLanguage->name)): ?>
+					<option value="<?php echo $defaultLanguage->id; ?>" selected> <?php echo $defaultLanguage->name; ?> </option>
+					<option value=""><?php echo trans('invoice.choose'); ?></option>
+				<?php else: ?>
+					<option value="" selected><?php echo trans('invoice.choose'); ?></option>
+				<?php endif; ?>	
+				
+				<?php foreach($languages as $v): ?>
+					<option value="<?php echo $v->id; ?>"> <?php echo $v->name; ?> </option>
+				<?php endforeach; ?>			
+				
+			</select>
+			
+			<?php echo $errors->first('language', '<p class="error">:messages</p>');?>
+		</div>
+
+		<button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+	
+	<?php echo Form::close(); ?>	
+</div>	

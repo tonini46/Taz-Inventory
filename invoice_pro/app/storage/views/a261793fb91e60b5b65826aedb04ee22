@@ -1,0 +1,90 @@
+<?php $__env->startSection('content'); ?>
+
+	<?php if(Auth::user()->role_id == 2): ?>
+		<div class="col-md-12">
+			<?php if($clients == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.create_at_least_one_client'); ?>
+
+				<a href="<?php echo URL::to('client'); ?>" ><?php echo trans('invoice.clients'); ?></a>
+			</div>	
+			<?php endif; ?>
+		
+			<?php if($products == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.create_at_least_one_product'); ?>
+
+				<a href="<?php echo URL::to('product'); ?>" ><?php echo trans('invoice.products'); ?></a>
+			</div>	
+			<?php endif; ?>	
+			
+			<?php if($check['email'] == 0): ?>
+				<div role="alert" class="alert alert-warning top20">
+					<strong> <?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_01'); ?> 
+					<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.company'); ?></a>
+				</div>	
+			<?php endif; ?>
+			
+			<?php if($check['tax'] == 0): ?>
+				<div role="alert" class="alert alert-warning top20">
+					<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_03'); ?> 
+					<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.tax'); ?></a>
+				</div>	
+			<?php endif; ?>
+
+			<?php if($check['currency'] == 0): ?>
+				<div role="alert" class="alert alert-warning top20">
+					<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_04'); ?> 
+					<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.currency'); ?></a>
+				</div>	
+			<?php endif; ?>
+
+			<?php if($check['payment'] == 0): ?>
+				<div role="alert" class="alert alert-warning top20">
+					<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_05'); ?> 
+					<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.payment'); ?></a>
+				</div>	
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
+
+	<div class="col-md-12">
+		<h1><i class="fa fa-list"></i> <?php echo trans('invoice.estimates'); ?></h1>
+		
+		<?php if(Auth::user()->role_id == 2): ?>
+			<a href="estimate/create" class="btn btn-primary <?php echo $clients == 0 || $products == 0 || $check['email'] == 0 || $check['tax'] == 0 || $check['currency'] == 0 || $check['payment'] == 0 ? 'disabled' : ''; ?>">
+				<i class="fa fa-plus"></i> <?php echo trans('invoice.create_new_estimate'); ?>
+
+			</a>
+		<?php endif; ?>
+	</div>	
+
+
+	<div class="col-md-12 top40">
+
+		<?php if(Auth::user()->role_id == 2): ?>
+			<ul id="solsoTabs" class="nav nav-tabs" role="tablist" id="myTab">
+				<li class="active"><a href="#tab1" role="tab" data-toggle="tab"><?php echo trans('invoice.estimates_created'); ?></a></li>
+				<li><a href="#tab2" role="tab" data-toggle="tab"><?php echo trans('invoice.estimates_received'); ?></a></li>
+			</ul>				
+			<div class="tab-content top20">
+				<div class="tab-pane active" id="tab1">
+					<?php echo $__env->make('estimates.estimates-created', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>
+				
+				<div class="tab-pane" id="tab2">
+					<?php echo $__env->make('estimates.estimates-received', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>	
+				</div>
+			</div>
+		<?php else: ?>
+			<h3><?php echo trans('invoice.estimates_received'); ?></h3>
+		
+			<?php echo $__env->make('estimates.estimates-received', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		<?php endif; ?>
+		
+	</div>
+	
+	<?php echo $__env->make('_modals/delete', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	<?php echo $__env->make('_modals/email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	
+<?php $__env->stopSection(); ?>

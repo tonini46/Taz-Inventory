@@ -1,0 +1,78 @@
+<div class="table-responsive">
+	<table class="table solsoTable">
+		<thead>
+			<tr>
+				<th><?php echo trans('invoice.crt'); ?>.</th>
+				<th><?php echo trans('invoice.from'); ?></th>
+				<th><?php echo trans('invoice.estimate'); ?></th>
+				<th><?php echo trans('invoice.reference'); ?></th>
+				<th><?php echo trans('invoice.amount'); ?></th>
+				<th><?php echo trans('invoice.estimate_date'); ?></th>
+				<th><?php echo trans('invoice.expiry_date'); ?></th>
+				<th><?php echo trans('invoice.created_at'); ?></th>
+				<th class="small"><?php echo trans('invoice.status'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<?php foreach($estimatesReceived as $crt => $v): ?>
+			
+				<tr>
+					<td>
+						<?php echo $crt+1; ?>
+
+					</td>
+
+					<td>
+						<?php echo $v->name; ?>
+
+					</td>
+					
+					<td>
+						<?php echo $v->estimate; ?>
+
+					</td>	
+					
+					<td>
+						<?php echo $v->reference; ?>
+
+					</td>						
+
+					<td>
+						<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->amount; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?> 
+					</td>	
+					
+					<td>
+						<?php echo $v->estimate_date; ?>
+
+					</td>					
+					
+					<td>
+						<?php echo $v->expiry_date; ?>
+
+					</td>	
+
+					<td>
+						<?php echo $v->created_at; ?>
+
+					</td>		
+
+					<td>
+						<?php if($v->status == 1): ?>
+							<span class="label label-paid"><?php echo trans('invoice.approved'); ?></label>
+						<?php else: ?>
+							<span class="label label-overdue"><?php echo trans('invoice.unapproved'); ?></label>
+						<?php endif; ?>
+					</td>						
+					
+					<td>
+						<a class="btn btn-info" href="<?php echo URL::to('estimate/received/' . $v->id); ?>"><i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?></a>
+					</td>
+				</tr>
+				
+			<?php endforeach; ?>
+		
+		</tbody>
+	</table>	
+</div>

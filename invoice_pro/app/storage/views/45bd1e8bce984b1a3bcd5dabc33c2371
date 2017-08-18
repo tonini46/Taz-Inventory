@@ -1,0 +1,103 @@
+<?php $__env->startSection('content'); ?>
+
+	<div class="col-md-12">
+		<h1><i class="fa fa-list"></i> <?php echo trans('invoice.clients'); ?></h1>
+		
+		<a href="client/create" class="btn btn-primary"><i class="fa fa-plus"></i> <?php echo trans('invoice.create_new_client'); ?></a>
+	</div>	
+
+	<div class="col-md-12 col-lg-12 top40">
+		<h3><?php echo trans('invoice.clients'); ?></h3>
+		
+		<div class="table-responsive">
+			<table class="table solsoTable">
+				<thead>
+					<tr>
+						<th><?php echo trans('invoice.crt'); ?>.</th>
+						<th><?php echo trans('invoice.client'); ?></th>
+						<th><?php echo trans('invoice.address'); ?></th>
+						<th><?php echo trans('invoice.contact'); ?></th>
+						<th><?php echo trans('invoice.phone'); ?></th>
+						<th><?php echo trans('invoice.email'); ?></th>
+						<?php if($app->type == 2): ?>
+						<th class="small"><?php echo trans('invoice.action'); ?></th>
+						<?php endif; ?>
+						<th class="small"><?php echo trans('invoice.action'); ?></th>
+						<th class="small"><?php echo trans('invoice.action'); ?></th>
+						<th class="small"><?php echo trans('invoice.action'); ?></th>
+					</tr>
+				</thead>
+				
+				<tbody>
+				
+				<?php foreach($clients as $crt => $v): ?>
+				
+					<tr>
+						<td>
+							<?php echo $crt+1; ?>
+
+						</td>
+
+						<td>
+							<?php echo $v->name; ?>
+
+						</td>
+						
+						<td>
+							<?php echo $v->address; ?>
+
+						</td>					
+						
+						<td>
+							<?php echo $v->contact; ?>
+
+						</td>						
+						
+						<td>
+							<?php echo $v->phone; ?>
+
+						</td>					
+						
+						<td>
+							<?php echo $v->email; ?>
+
+						</td>						
+						
+						<?php if($app->type == 2): ?>
+							
+							<td>		
+								<?php if($v->status != 1): ?>
+								
+									<a class="btn solso-pdf" href="<?php echo URL::to('newsletter/' . $v->id); ?>"><i class="fa fa-share"></i> <?php echo trans('invoice.send_invitation'); ?></a>	
+									
+								<?php else: ?>
+									<?php echo trans('invoice.invitation_was_sent'); ?>
+
+								<?php endif; ?>
+							</td>
+						
+						<?php endif; ?>		
+						
+						<td>		
+							<a class="btn btn-info" href="<?php echo URL::to('client/' . $v->id); ?>"><i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?></a>
+						</td>
+
+						<td>		
+							<a class="btn btn-primary" href="<?php echo URL::to('client/' . $v->id . '/edit'); ?>"><i class="fa fa-edit"></i> <?php echo trans('invoice.edit'); ?></a>
+						</td>
+						
+						<td>		
+							<a class="btn btn-danger solsoConfirm" data-toggle="modal" data-target="#solsoDeleteModal" data-url="<?php echo URL::to('client/' . $v->id); ?>"><i class="fa fa-trash"></i> <?php echo trans('invoice.delete'); ?></a>		
+						</td>
+					</tr>
+					
+				<?php endforeach; ?>
+				
+				</tbody>
+			</table>	
+		</div>	
+	</div>
+	
+	<?php echo $__env->make('_modals/delete', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	
+<?php $__env->stopSection(); ?>

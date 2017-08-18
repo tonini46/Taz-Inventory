@@ -1,0 +1,67 @@
+<div class="col-md-12 col-lg-8">
+	<h3><?php echo trans('invoice.invoice_start_number'); ?></h3>
+
+	<div class="row">
+	<div class="col-md-4">		
+	<?php echo Form::open(array('url' => 'invoice/number', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<label for="value"> <?php echo trans('invoice.new_value'); ?></label>
+		<div class="input-group">
+			<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo isset($invoiceSettings->number) ? $invoiceSettings->number : ''; ?>" data-parsley-errors-container=".createNumber">
+
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+			</span>	
+		</div>
+		
+		<div class="createNumber"></div>
+		<?php echo $errors->first('value', '<p class="error">:messages</p>');?>
+		
+	<?php echo Form::close(); ?>
+
+	</div>
+	</div>
+
+	<h3 class="top20"><?php echo trans('invoice.invoice_code'); ?></h3>
+	<div class="row">
+	<div class="col-md-4">		
+	<?php echo Form::open(array('url' => 'invoice/code', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<label for="value"><?php echo trans('invoice.new_value'); ?></label>
+		<div class="input-group">
+			<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo isset($invoiceSettings->code) ? $invoiceSettings->code : ''; ?>" data-parsley-errors-container=".createCode">
+
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+			</span>	
+		</div>
+		
+		<div class="createCode"></div>
+		<?php echo $errors->first('value', '<p class="error">:messages</p>');?>
+		
+	<?php echo Form::close(); ?>
+
+	</div>
+	</div>	
+	
+	<h3 class="top20"><?php echo trans('invoice.invoice_personal_title'); ?></h3>
+	<div class="row">
+	<div class="col-md-8">		
+	<?php echo Form::open(array('url' => 'invoice/text', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<div class="form-group">
+			<label for="description" class="lowercase"><?php echo trans('invoice.invoice_personal_description'); ?></label>
+			<textarea name="description" class="form-control required solsoSimplyEditor"  rows="7" autocomplete="off"><?php echo isset($invoiceSettings->text) ? $invoiceSettings->text : ''; ?></textarea>
+		</div>	
+
+		<?php echo $errors->first('description', '<p class="error">:messages</p>');?>
+		
+		<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+	<?php echo Form::close(); ?>
+
+	</div>
+	</div>	
+</div>

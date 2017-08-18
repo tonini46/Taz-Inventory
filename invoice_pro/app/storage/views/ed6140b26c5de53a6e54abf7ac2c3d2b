@@ -1,0 +1,299 @@
+<?php $__env->startSection('content'); ?>
+	<div class="container top20">
+	<div class="row thumbnail">
+		<div id="invoice">
+			<div class="col-md-6">
+				<?php if(isset($logo->name)): ?>
+					<img src="<?php echo URL::to('public/upload/' . $logo->name ); ?>" class="img-responsive thumbnail">
+				<?php endif; ?>
+			</div>
+			
+			<div class="col-md-2">
+				<span class="label label-<?php echo str_replace(' ', '-', $invoice->status); ?> "><?php echo $invoice->status; ?></span>
+			</div>
+			
+			<div class="col-md-4">
+				<h1 class="uppercase">
+					<?php echo trans('invoice.invoice'); ?>
+
+				</h1>
+				
+				<table class="table">
+					<tr>
+						<th class="col-md-6 text-center"><?php echo trans('invoice.invoice'); ?> #</th>
+						<th class="col-md-6 text-center"><?php echo trans('invoice.date'); ?></th>
+					</tr>
+
+					<tr>						
+						<td class="text-center"><?php echo isset($invoiceSettings->code) ? $invoiceSettings->code : ''; ?> <?php echo $invoice->number; ?></td>
+						<td class="text-center"><?php echo $invoice->start_date; ?></td>
+					</tr>
+				</table>				
+			</div>
+
+			<div class="col-md-6 top20">	
+				<h3><?php echo trans('invoice.bill_from'); ?></h3>
+				<h4><?php echo $owner->name; ?></h4>
+				
+				<p class="details"><?php echo $owner->city; ?>, <?php echo $owner->state; ?>, <?php echo $owner->country; ?></p>
+				<p class="details"><?php echo $owner->address; ?> <?php echo $owner->zip; ?></p>
+				<p class="details"><?php echo $owner->contact; ?></p>
+				<p class="details"><?php echo $owner->phone; ?></p>
+				<p class="details"><?php echo $owner->bank; ?></p>
+				<p class="details"><?php echo $owner->bank_account; ?></p>
+			</div>
+			
+			<div class="col-md-6 top20">
+				<h3><?php echo trans('invoice.bill_to'); ?></h3>
+				<h4><?php echo $invoice->client; ?></h4>
+
+				<p class="details"><?php echo $invoice->city; ?>, <?php echo $invoice->state; ?>, <?php echo $invoice->country; ?></p>
+				<p class="details"><?php echo $invoice->address; ?> <?php echo $invoice->zip; ?></p>
+				<p class="details"><?php echo $invoice->contact; ?></p>
+				<p class="details"><?php echo $invoice->phone; ?></p>
+				<p class="details"><?php echo $invoice->bank; ?></p>
+				<p class="details"><?php echo $invoice->bank_account; ?></p>				
+			</div>
+			
+			<div class="col-md-12 top20">
+			
+				<?php if($invoiceProducts): ?>
+			
+					<div class="table-responsive">
+					<table class="table table-striped">
+					<thead>
+						<tr>
+							<th><?php echo trans('invoice.crt'); ?>.</th>
+							<th><?php echo trans('invoice.item'); ?></th>
+							<th class="small"><?php echo trans('invoice.qty'); ?></th>
+							<th class="small"><?php echo trans('invoice.unit_price'); ?></th>
+							<th class="small"><?php echo trans('invoice.tax_rate'); ?></th>
+							<th class="small"><?php echo trans('invoice.discount'); ?></th>
+							<th class="small"><?php echo trans('invoice.amount'); ?></th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<?php $subTotalItems 	= 0;?>
+						<?php $taxItems 		= 0;?>
+						<?php $discountItems	= 0;?>
+						<?php $invoiceDiscount	= 0;?>
+						
+						<?php foreach($invoiceProducts as $crt => $v): ?>
+						
+							<tr>
+								<td>
+									<?php echo $crt + 1; ?>
+
+								</td>
+								
+								<td>
+									<?php echo $v->name; ?>
+
+								</td>
+								
+								<td class="small">
+									<?php echo $v->quantity; ?>
+
+								</td>
+								
+								<td class="small">
+									<?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo $v->price; ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+								</td>
+								
+								<td class="small">
+									<?php echo $v->tax; ?> %
+								</td>
+								
+								<td class="small">
+									- <?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($v->discount_value, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?> 
+								</td>
+								
+								<td class="small">
+									<?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo $v->amount; ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+								</td>							
+							</tr>
+							
+							<?php if($v->description): ?>
+							<tr>
+								<td colspan="7">
+									<?php echo $v->description; ?>
+
+								</td>
+							</tr>
+							<?php endif; ?>
+							
+							<?php $subTotalItems 	+= $v->quantity * $v->price;?>
+							<?php $taxItems 		+= ($v->quantity * $v->price) * ($v->tax / 100);?>							
+							<?php $discountItems 	+= $v->discount_value;?>		
+							
+						<?php endforeach; ?>
+						
+						<?php if ($invoice->type == 1) { ?>
+							<?php $invoiceDiscount	= $invoice->discount;?>
+						<?php } ?>
+						
+						<?php if ($invoice->type == 2) { ?>
+							<?php $invoiceDiscount	= ($subTotalItems + $taxItems - $discountItems) * ($invoice->discount / 100); ?>
+						<?php } ?>	
+					</tbody>	
+					
+					<tfoot>
+						<tr class="bg-white">
+							<td colspan="4" class="vcenter text-center">
+								<?php echo trans('invoice.invoice_text_01'); ?>
+
+							</td>
+							
+							<td colspan="3" class="total">
+								<div class="form-group top10"><?php echo trans('invoice.subtotal'); ?>: 
+									<?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($subTotalItems, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?> 
+								</div>
+								
+								<div class="form-group"><?php echo trans('invoice.tax'); ?>: 
+									<?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($taxItems, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+								</div>
+
+								<?php if( $discountItems != 0 ): ?>
+									<div class="form-group"><?php echo trans('invoice.discount'); ?>: 
+										- <?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($discountItems, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+									</div>
+								<?php endif; ?>
+								
+								<?php if( $invoiceDiscount != 0 ): ?>
+									<div class="form-group"><?php echo trans('invoice.invoice_discount'); ?>: 
+										- <?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($invoiceDiscount, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+									</div>
+								<?php endif; ?>								
+								
+								<h4 class="form-group"><?php echo trans('invoice.total'); ?>: 
+									<?php echo $invoice->position == 1 ? $invoice->currency : ''; ?> <?php echo number_format($invoice->amount, 2, '.', ''); ?> <?php echo $invoice->position == 2 ? $invoice->currency : ''; ?>
+
+								</h4>
+							</td>
+						</tr>	
+					</tfoot>	
+					</table>
+					</div>
+					
+				<?php else: ?>
+				
+					<div role="alert" class="alert alert-danger top20">
+						<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_06'); ?>
+
+					</div>	
+					
+				<?php endif; ?>				
+				
+			</div>
+		</div>
+		
+		<div class="col-md-12">
+			<h3><?php echo trans('invoice.list_of_payments'); ?></h3>
+			
+			<div class="table-responsive">
+			<table class="table table-striped">			
+			<thead>
+				<tr>
+					<th><?php echo trans('invoice.crt'); ?>.</th>
+					<th class="col-md-4"><?php echo trans('invoice.amount_paid'); ?></th>
+					<th class="col-md-4"><?php echo trans('invoice.date'); ?></th>
+					<th class="col-md-4"><?php echo trans('invoice.payment_method'); ?></th>
+				</tr>				
+			</thead>
+
+			<tbody>	
+			
+				<?php if($invoicePayments): ?>
+					<?php foreach($invoicePayments as $crt => $p): ?>
+					
+						<tr>
+							<td>
+								<?php echo $crt + 1; ?>
+
+							</td>				
+					
+							<td>
+								<?php echo $p->payment_amount; ?> <?php echo $invoice->currency; ?>
+
+							</td>
+
+							<td>
+								<?php echo $p->payment_date; ?>
+
+							</td>						
+					
+							<td>
+								<?php echo $p->name; ?>
+
+							</td>				
+						</tr>
+						
+					<?php endforeach; ?>
+				<?php else: ?>
+				
+					<tr>
+						<td colspan="4">
+							<?php echo trans('invoice.no_data'); ?>
+
+						</td>				
+					</tr>
+					
+				<?php endif; ?>
+				
+			</tbody>	
+			</table>
+			</div>
+		</div>
+		
+		<?php if(!Request::segment(3)): ?>
+		
+			<div class="col-md-12">
+				<h3><?php echo trans('invoice.invoice_extra_information'); ?></h3>
+				<p class="top10"><?php echo $invoice->description; ?></p>
+			</div>		
+		
+			<?php if(isset($invoiceSettings->text)): ?>
+			
+				<div class="col-md-12">
+					<h4><?php echo trans('invoice.invoice_personal_description'); ?></h4>
+					<?php echo $invoiceSettings->text; ?>
+
+				</div>
+				
+			<?php endif; ?>
+		<?php endif; ?>
+		
+	</div>
+	</div>
+	
+	<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+
+			<?php if(Request::segment(3)): ?>
+				<a class="btn solso-pdf" href="<?php echo URL::to('pdf/received/' . $invoice->invoiceID); ?>"><i class="fa fa-file-pdf-o"></i> <?php echo trans('invoice.export_pdf'); ?></a>
+				<a class="btn solso-excel" href="<?php echo URL::to('excel/received/' . $invoice->invoiceID); ?>"><i class="fa fa-file-excel-o"></i> <?php echo trans('invoice.export_excel'); ?></a>				
+			<?php else: ?>
+				<a class="btn solso-pdf" href="<?php echo URL::to('pdf/' . $invoice->invoiceID); ?>"><i class="fa fa-file-pdf-o"></i> <?php echo trans('invoice.export_pdf'); ?></a>
+				<a class="btn solso-excel" href="<?php echo URL::to('excel/' . $invoice->invoiceID); ?>"><i class="fa fa-file-excel-o"></i> <?php echo trans('invoice.export_excel'); ?></a>				
+			
+				<button class="btn solso-email solsoConfirm" data-toggle="modal" data-target="#solsoSendEmail" data-url="<?php echo URL::to('email/' . $invoice->invoiceID); ?>">
+					<i class="fa fa-envelope"></i> <?php echo trans('invoice.email_to_client'); ?>
+
+				</button>					
+				<a class="btn btn-info" href="<?php echo URL::to('client/' . $invoice->clientID); ?>"><i class="fa fa-user"></i> <?php echo trans('invoice.client'); ?></a>		
+			<?php endif; ?>
+			
+		</div>
+	</div>	
+	</div>
+
+	<?php echo $__env->make('_modals/email', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+	
+<?php $__env->stopSection(); ?>

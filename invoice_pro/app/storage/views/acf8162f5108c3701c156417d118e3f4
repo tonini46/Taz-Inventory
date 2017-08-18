@@ -1,0 +1,20 @@
+<div class="modal fade" id="solsoInfoProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><?php echo trans('invoice.product_information'); ?></h4>
+        </div>
+
+        <div class="modal-body">
+            <h2 class="product-name"><?php echo trans('invoice.item'); ?></h2>
+            <p><?php echo trans('invoice.price'); ?>: <?php echo $currency->position == 1 ? $currency->name : ''; ?> <span class="product-price"></span> <?php echo $currency->position == 2 ? $currency->name : ''; ?> </p>
+            <p><?php echo trans('invoice.description'); ?>: <span class="product-description"></span></p>
+        </div>
+
+        <div class="modal-footer">
+			<button type="button" class="btn btn-primary" data-dismiss="modal"><?php echo trans('invoice.ok'); ?></button>
+        </div>
+    </div>
+</div>
+</div>

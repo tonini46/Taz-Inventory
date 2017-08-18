@@ -1,0 +1,310 @@
+<?php $__env->startSection('content'); ?>
+
+	<div class="col-md-12">
+		<h1><i class="fa fa-home"></i> <?php echo trans('invoice.dashboard'); ?></h1>
+	</div>
+	
+	<div class="col-md-12">
+		<div role="alert" class="alert alert-warning">
+			<strong> <?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_09'); ?> 
+			<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.application'); ?></a>
+			<?php echo trans('invoice.message_10'); ?>
+
+		</div>	
+	
+		<?php if($check['email'] == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong> <?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_01'); ?> 
+				<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.company'); ?></a>
+			</div>	
+		<?php endif; ?>
+
+		<?php if($check['logo'] == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_02'); ?> 
+				<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.logo'); ?></a>
+			</div>	
+		<?php endif; ?>		
+		
+		<?php if($check['tax'] == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_03'); ?> 
+				<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.tax'); ?></a>
+			</div>	
+		<?php endif; ?>
+
+		<?php if($check['currency'] == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_04'); ?> 
+				<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.currency'); ?></a>
+			</div>	
+		<?php endif; ?>
+
+		<?php if($check['payment'] == 0): ?>
+			<div role="alert" class="alert alert-warning top20">
+				<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo trans('invoice.message_05'); ?> 
+				<a href="<?php echo URL::to('setting'); ?>" ><?php echo trans('invoice.settings'); ?> -> <?php echo trans('invoice.payment'); ?></a>
+			</div>	
+		<?php endif; ?>		
+		
+	</div>
+	
+	<div class="col-sm-6 col-md-3">
+		<div class="widget widget-stats bg-green">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-users fa-fw"></i></div>
+			<div class="stats-title"><?php echo trans('invoice.clients'); ?></div>
+			<div class="stats-number"><?php echo $clients; ?></div>
+			<hr>
+			<div class="stats-desc"><?php echo trans('invoice.number_of_clients'); ?></div>
+		</div> 	
+	</div> 	
+
+	<div class="col-sm-6 col-md-3">
+		<div class="widget widget-stats bg-blue">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-puzzle-piece fa-fw"></i></div>
+			<div class="stats-title"><?php echo trans('invoice.products'); ?></div>
+			<div class="stats-number"><?php echo $products; ?></div>
+			<hr>
+			<div class="stats-desc"><?php echo trans('invoice.number_of_products'); ?></div>
+		</div> 	
+	</div>  
+
+	<div class="col-sm-6 col-md-3">
+		<div class="widget widget-stats bg-purple">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-file-pdf-o fa-fw"></i></div>
+			<div class="stats-title"><?php echo trans('invoice.invoices'); ?></div>
+			<div class="stats-number"><?php echo $invoices; ?></div>
+			<hr>
+			<div class="stats-desc"><?php echo trans('invoice.number_of_invoices'); ?></div>
+		</div> 
+	</div> 		
+	
+	<div class="col-sm-6 col-md-3">
+		<div class="widget widget-stats bg-grey">
+			<div class="stats-icon stats-icon-lg"><i class="fa fa-money fa-fw"></i></div>
+			<div class="stats-title"><?php echo trans('invoice.amount'); ?></div>
+			<div class="stats-number"><?php echo $totalAmount; ?></div>
+			<hr>
+			<div class="stats-desc"><?php echo trans('invoice.value_of_amounts'); ?></div>
+		</div> 
+	</div> 		
+
+	
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-pending">
+			<p><?php echo trans('invoice.paid'); ?>: <?php echo $invoiceChart['paid']['count']; ?></p>
+			<p><?php echo trans('invoice.unpaid'); ?>: <?php echo $invoiceChart['unpaid']['count']; ?></p>
+			<p><?php echo trans('invoice.partial_paid'); ?>: <?php echo $invoiceChart['partiallypaid']['count']; ?></p>
+			<p><?php echo trans('invoice.overdue'); ?>: <?php echo $invoiceChart['overdue']['count']; ?></p>
+			<p><?php echo trans('invoice.canceled'); ?>: <?php echo $invoiceChart['cancelled']['count']; ?></p>
+		</div> 
+	</div>		
+
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-paid">
+			<div class="chart" data-percent="<?php echo $invoiceChart['paid']['percent']; ?>">
+				<span class="percent"></span>
+			</div>	
+			
+			<h4><?php echo trans('invoice.paid'); ?></h4>
+		</div>
+	</div> 	
+
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-unpaid">
+			<div class="chart" data-percent="<?php echo $invoiceChart['unpaid']['percent']; ?>">
+				<span class="percent"></span>
+			</div>	
+			
+			<h4><?php echo trans('invoice.unpaid'); ?></h4>
+		</div>
+	</div>  
+
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-partial-paid">
+			<div class="chart" data-percent="<?php echo $invoiceChart['partiallypaid']['percent']; ?>">
+				<span class="percent"></span>
+			</div>	
+			
+			<h4><?php echo trans('invoice.partial_paid'); ?></h4>
+		</div>
+	</div> 		
+
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-overdue">
+			<div class="chart" data-percent="<?php echo $invoiceChart['overdue']['percent']; ?>">
+				<span class="percent"></span>
+			</div>	
+			
+			<h4><?php echo trans('invoice.overdue'); ?></h4>
+		</div>
+	</div> 
+
+	<div class="col-sm-6 col-md-2">
+		<div class="solso-pie-chart thumbnail chart-invoice-canceled">
+			<div class="chart" data-percent="<?php echo $invoiceChart['cancelled']['percent']; ?>">
+				<span class="percent"></span>
+			</div>	
+			
+			<h4><?php echo trans('invoice.canceled'); ?></h4>
+		</div>
+	</div>	
+	
+			
+	<div class="col-sm-6 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><?php echo trans('invoice.report_01'); ?>
+
+
+				<a href="<?php echo URL::to('report');?>" class="pull-right"><i class="fa fa-line-chart"></i><?php echo trans('invoice.reports'); ?></a></h2>
+			</div>
+			
+			<div class="panel-body">
+				<div id="chartInvoicesLastMonth"></div>
+				<input type="hidden" class="chartInvoicesLastMonth" value="<?php echo $reports['month'];?>">
+			</div>
+		</div>				
+	</div>
+
+	<div class="col-sm-6 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><?php echo trans('invoice.report_02'); ?>
+
+
+				<a href="<?php echo URL::to('report');?>" class="pull-right"><i class="fa fa-line-chart"></i> <?php echo trans('invoice.reports'); ?></a></h2>
+			</div>
+			
+			<div class="panel-body">
+				<div id="chartInvoicesLastYear"></div>
+				<input type="hidden" class="chartInvoicesLastYear" value="<?php echo $reports['year'];?>">
+			</div>
+		</div>				
+	</div>
+
+	<div class="col-sm-6 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><?php echo trans('invoice.invoices_to_be_paid'); ?>
+
+
+				<a href="<?php echo URL::to('invoice');?>" class="pull-right"><i class="fa fa-file-pdf-o"></i> <?php echo trans('invoice.invoices'); ?></a></h2>
+			</div>
+			
+			<div class="panel-body">
+				<div class="table-responsive">
+				<table class="table table-striped solsoTable">
+					<thead>
+						<tr>
+							<th><?php echo trans('invoice.crt'); ?>.</th>
+							<th class="small"><?php echo trans('invoice.number'); ?></th>
+							<th><?php echo trans('invoice.client'); ?></th>
+							<th class="small"><?php echo trans('invoice.due_date'); ?></th>
+							<th class="small"><?php echo trans('invoice.status'); ?></th>
+							<th class="small"><?php echo trans('invoice.action'); ?></th>
+						</tr>
+					</thead>				
+					
+					<tbody>
+						<?php foreach($lastInvoices as $crt => $v): ?>
+						<tr>
+							<td>
+								<?php echo $crt + 1; ?>
+
+							</td>
+							
+							<td>
+								<?php echo $v->number; ?>
+
+							</td>
+
+							<td>
+								<?php echo $v->client; ?>
+
+							</td>													
+							
+							<td>
+								<?php echo $v->due_date; ?>
+
+							</td>
+							
+							<td>
+								<span class="label label-<?php echo str_replace(' ', '-', $v->status); ?> "><?php echo $v->status; ?></label>
+							</td>
+							
+							<td>
+								<a class="btn btn-info" href="<?php echo URL::to('invoice/' . $v->id); ?>"><i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?></a>
+							</td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>		
+				</div>
+			</div>
+		</div>				
+	</div>
+
+	<div class="col-sm-6 col-lg-6">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h2 class="panel-title"><?php echo trans('invoice.overdue_invoices'); ?>
+
+
+				<a href="<?php echo URL::to('invoice');?>" class="pull-right"><i class="fa fa-file-pdf-o"></i> <?php echo trans('invoice.invoices'); ?></a></h2>
+			</div>
+			
+			<div class="panel-body">
+				<div class="table-responsive">
+				<table class="table table-striped solsoTable">
+					<thead>
+						<tr>
+							<th><?php echo trans('invoice.crt'); ?>.</th>
+							<th class="small"><?php echo trans('invoice.number'); ?></th>
+							<th><?php echo trans('invoice.client'); ?></th>
+							<th class="small"><?php echo trans('invoice.due_date'); ?></th>
+							<th class="small"><?php echo trans('invoice.status'); ?></th>
+							<th class="small"><?php echo trans('invoice.action'); ?></th>
+						</tr>
+					</thead>				
+					
+					<tbody>
+						<?php foreach($overdueInvoices as $crt => $v): ?>
+						<tr>
+							<td>
+								<?php echo $crt + 1; ?>
+
+							</td>
+							
+							<td>
+								<?php echo $v->number; ?>
+
+							</td>
+
+							<td>
+								<?php echo $v->client; ?>
+
+							</td>													
+							
+							<td>
+								<?php echo $v->due_date; ?>
+
+							</td>
+							
+							<td>
+								<span class="label label-overdue"><?php echo trans('invoice.overdue'); ?></label>
+							</td>
+							
+							<td>
+								<a class="btn btn-info" href="<?php echo URL::to('invoice/' . $v->id); ?>"><i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?></a>
+							</td>
+						</tr>
+						<?php endforeach; ?>
+					</tbody>
+				</table>		
+				</div>
+			</div>
+		</div>				
+	</div>
+
+<?php $__env->stopSection(); ?>

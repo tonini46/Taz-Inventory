@@ -1,0 +1,53 @@
+<div class="modal fade" id="solsoAddPayment" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><?php echo trans('invoice.add_payment'); ?></h4>
+        </div>
+		
+		<?php echo Form::open(array('id' => 'solsoFormID', 'class' => 'solsoForm')); ?>
+
+        
+			<div class="modal-body">
+				<div class="col-md-4">		
+					<div class="form-group">
+						<label for="amount"><?php echo trans('invoice.amount_paid'); ?></label>
+						<input type="text" name="amount" class="form-control required" autocomplete="off"
+						data-parsley-type="number">
+					</div>
+				</div>	
+				
+				<div class="col-md-4">		
+					<div class="form-group">
+						<label for="date"><?php echo trans('invoice.date'); ?></label>
+						<input type="text" name="date" class="form-control datepicker required" autocomplete="off">
+					</div>
+				</div>				
+				
+				<div class="col-md-4">	
+					<div class="form-group">
+						<label for="payment"><?php echo trans('invoice.payment_method'); ?></label>
+						<select name="payment" class="form-control required">
+							<option value="" selected>choose</option>
+							
+							<?php foreach($payments as $v): ?>
+								<option value="<?php echo $v->id; ?>"> <?php echo $v->name; ?> </option>
+							<?php endforeach; ?>					
+							
+						</select>
+					</div>				
+				</div>	
+				<div class="clearfix"></div>	
+			</div>
+
+			<div class="modal-footer">
+				<button type="button" class="btn btn-warning" data-dismiss="modal"><i class="fa fa-remove"></i> <?php echo trans('invoice.cancel'); ?></button>
+				<button type="submit" class="btn btn-success pull-right"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>
+			</div>
+			
+		<?php echo Form::close(); ?>									
+		
+    </div>
+</div>
+</div>

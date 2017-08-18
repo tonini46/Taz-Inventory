@@ -1,0 +1,5 @@
+<?php $__env->startSection('content'); ?>
+
+	<img src="<?php echo URL::to('public/img/laptop.png'); ?>" class="img-responsive top10">
+	
+<?php $__env->stopSection(); ?>	

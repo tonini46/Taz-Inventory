@@ -1,0 +1,129 @@
+<div class="col-md-12 col-lg-8">	
+	<h3><?php echo trans('invoice.currencies'); ?></h3>
+		
+	<?php if(Session::has('ajaxMessage')): ?>
+
+		<div role="alert" class="alert alert-warning top20 solsoHideAlert">
+			<button data-dismiss="alert" class="close" type="button"><span aria-hidden="true"><i class="fa fa-close"></i></span><span class="sr-only">Close</span></button>
+			<strong><?php echo trans('invoice.message'); ?>: </strong> <?php echo Session::get('ajaxMessage'); ?>
+
+		</div>		
+		
+		<?php echo Session::forget('ajaxMessage'); ?>
+
+		
+	<?php endif; ?>	
+	
+	<div class="row">
+	<div class="col-md-6">		
+	<?php echo Form::open(array('url' => 'currency', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<label for="value"> <?php echo trans('invoice.new_value'); ?></label>
+		<div class="input-group">
+			<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo Input::old('value'); ?>" data-parsley-errors-container=".createCurency">
+
+			<span class="input-group-btn">
+				<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>	
+			</span>	
+		</div>
+		
+		<div class="createCurency"></div>
+		<?php echo $errors->first('value', '<p class="error">:messages</p>');?>
+		
+	<?php echo Form::close(); ?>
+
+	</div>
+	</div>
+	<div class="clearfix"></div>		
+	
+	<div class="table-responsive">
+		<table class="table top20">
+			<thead>
+				<tr>
+					<th><?php echo trans('invoice.crt'); ?>.</th>
+					<th><?php echo trans('invoice.values'); ?></th>
+					<th><?php echo trans('invoice.position_price'); ?></th>
+					<th><?php echo trans('invoice.default_currency'); ?></th>
+					<th class="col-md-4 col-4"><?php echo trans('invoice.action'); ?></th>
+					<th class="small"><?php echo trans('invoice.action'); ?></th>
+				</tr>
+			</thead>
+			
+			<tbody>
+			
+				<?php foreach($currencies as $crt => $v): ?>
+			
+				<tr>
+					<td> 
+						<?php echo $crt + 1; ?> 
+					</td>
+					
+					<td> 
+						<?php echo $v->name; ?>
+
+					</td>
+					
+					<td>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default <?php echo $v->position == 1 ? 'active' : ''; ?> solsoCurrencySettings" data-id="<?php echo $v->id; ?>">
+								<input type="radio" name="position" autocomplete="off" value="1" <?php echo $v->position == 1 ? "checked='checked'" : ''; ?>> <span class="capitalize"><?php echo trans('invoice.left'); ?></span>
+							</label>
+							
+							<label class="btn btn-default <?php echo $v->position == 2 ? 'active' : ''; ?> solsoCurrencySettings" data-id="<?php echo $v->id; ?>">
+								<input type="radio" name="position" autocomplete="off" value="2" <?php echo $v->position == 2 ? "checked='checked'" : ''; ?>> <span class="capitalize"><?php echo trans('invoice.right'); ?></span>
+							</label>
+						</div>	
+					</td>
+					
+					<td>
+						<div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default <?php echo $company->currency_id == $v->id  ? 'active' : ''; ?> solsoCurrencySettings" data-id="<?php echo $v->id; ?>">
+								<input type="radio" name="default" autocomplete="off" value="1" <?php echo $company->currency_id == $v->id ? "checked='checked'" : ''; ?>> <span class="capitalize"><?php echo trans('invoice.yes'); ?></span>
+							</label>
+							
+							<label class="btn btn-default <?php echo $company->currency_id != $v->id ? 'active' : ''; ?> solsoCurrencySettings" data-id="<?php echo $v->id; ?>">
+								<input type="radio" name="default" autocomplete="off" value="2" <?php echo $company->currency_id != $v->id ? "checked='checked'" : ''; ?>> <span class="capitalize"><?php echo trans('invoice.no'); ?></span>
+							</label>
+						</div>	
+					</td>					
+					
+					<td>
+						<?php echo Form::open(array('url' => 'currency/' . $v->id, 'role' => 'form', 'method' => 'PUT')); ?>
+
+						
+						<div class="input-group">
+							<input type="text" name="value" class="form-control required" autocomplete="off" value="<?php echo $v->name; ?>">
+							
+							<span class="input-group-btn">
+								<button type="submit" class="btn btn-success"><i class="fa fa-save"></i> <?php echo trans('invoice.update'); ?></button>	
+							</span>	
+						</div>		
+						
+						<?php echo Form::close(); ?>						
+					</td>
+					
+					<td>
+						<a  class="btn btn-danger solsoConfirm" data-toggle="modal" data-target="#solsoDeleteModal" data-url="<?php echo URL::to('currency/' . $v->id); ?>"><i class="fa fa-trash"></i> <?php echo trans('invoice.delete'); ?></a>
+					</td>
+				</tr>
+				
+				<?php endforeach; ?>
+				
+			</tbody>
+			
+			<?php if(sizeof($currencies) == 0): ?>
+			
+			<tfoot>
+				<tr>
+					<td colspan="4">
+						<?php echo trans('invoice.no_data'); ?>
+
+					</td>
+				</tr>
+			</tfoot>
+
+			<?php endif; ?>	
+		</table>
+	</div>
+</div>

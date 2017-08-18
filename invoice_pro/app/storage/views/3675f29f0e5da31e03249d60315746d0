@@ -1,0 +1,100 @@
+<div class="table-responsive">
+	<table class="table solsoTable">
+		<thead>
+			<tr>
+				<th><?php echo trans('invoice.crt'); ?>.</th>
+				<th><?php echo trans('invoice.client'); ?></th>
+				<th><?php echo trans('invoice.estimate'); ?></th>
+				<th><?php echo trans('invoice.reference'); ?></th>
+				<th><?php echo trans('invoice.amount'); ?></th>
+				<th><?php echo trans('invoice.estimate_date'); ?></th>
+				<th><?php echo trans('invoice.expiry_date'); ?></th>
+				<th><?php echo trans('invoice.created_at'); ?></th>
+				<th class="small"><?php echo trans('invoice.status'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<?php foreach($estimates as $crt => $v): ?>
+			
+				<tr>
+					<td>
+						<?php echo $crt+1; ?>
+
+					</td>
+
+					<td>
+						<?php echo $v->name; ?>
+
+					</td>
+					
+					<td>
+						<?php echo $v->estimate; ?>
+
+					</td>	
+					
+					<td>
+						<?php echo $v->reference; ?>
+
+					</td>						
+
+					<td>
+						<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->amount; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?> 
+					</td>	
+					
+					<td>
+						<?php echo $v->estimate_date; ?>
+
+					</td>					
+					
+					<td>
+						<?php echo $v->expiry_date; ?>
+
+					</td>	
+
+					<td>
+						<?php echo $v->created_at; ?>
+
+					</td>		
+
+					<td>
+						<?php if($v->status == 1): ?>
+							<span class="label label-paid"><?php echo trans('invoice.approved'); ?></label>
+						<?php else: ?>
+							<span class="label label-overdue"><?php echo trans('invoice.unapproved'); ?></label>
+						<?php endif; ?>
+					</td>						
+
+					<td>		
+						<button class="btn btn-default solsoConfirm" data-toggle="modal" data-target="#solsoSendEmail" data-url="<?php echo URL::to('email/' . $v->id); ?>" 
+						title="<?php echo trans('invoice.quick_action'); ?>" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.email_to_client'); ?>">
+							<i class="fa fa-envelope"></i>
+						</button>		
+					</td>
+					
+					<td>
+						<a class="btn btn-info" href="<?php echo URL::to('estimate/' . $v->id); ?>"><i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?></a>
+					</td>							
+
+					<td>		
+						<?php if($v->status != 1): ?>
+							<a class="btn btn-primary" href="<?php echo URL::to('estimate/' . $v->id . '/edit'); ?>"><i class="fa fa-edit"></i> <?php echo trans('invoice.edit'); ?></a>
+						<?php else: ?>
+							<a class="btn btn-primary disabled" href=""><i class="fa fa-ban"></i> <?php echo trans('invoice.edit'); ?></a>	
+						<?php endif; ?>
+					</td>
+					
+					<td>		
+						<a class="btn btn-danger solsoConfirm" data-toggle="modal" data-target="#solsoDeleteModal" data-url="<?php echo URL::to('estimate/' . $v->id); ?>"><i class="fa fa-trash"></i> <?php echo trans('invoice.delete'); ?></a>		
+					</td>
+				</tr>
+				
+			<?php endforeach; ?>
+
+		</tbody>
+	</table>	
+</div>

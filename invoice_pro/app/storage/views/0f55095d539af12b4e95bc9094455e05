@@ -1,0 +1,36 @@
+<?php $__env->startSection('content'); ?>
+
+	<?php echo Form::open(array('url' => 'login', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+
+		<div class="col-md-12 top20">
+			<div class="form-group">
+				<label for="create-email"><?php echo trans('invoice.email'); ?></label>
+				<input type="email" name="create-email" class="form-control required" id="create_email" autocomplete="off" value="<?php echo Input::old('create-email'); ?>">
+				
+				<?php echo $errors->first('create-email', '<p class="error">:messages</p>');?>
+			</div>	
+
+			<div class="form-group">
+				<label for="repeat-email"><?php echo trans('invoice.repeat_email'); ?></label>
+				<input type="email" name="repeat-email" class="form-control required" autocomplete="off" value="<?php echo Input::old('repeat-email'); ?>" data-parsley-equalto="#create_email">
+				
+				<?php echo $errors->first('repeat-email', '<p class="error">:messages</p>');?>
+			</div>				
+			
+			<div class="form-group">
+				<label for="create-password"><?php echo trans('invoice.password'); ?></label>
+				<input type="password" name="create-password" class="form-control required" autocomplete="off" value="<?php echo Input::old('create-password'); ?>" data-parsley-minlength="6">
+				
+				<?php echo $errors->first('create-password', '<p class="error">:messages</p>');?>
+			</div>	
+		
+			<div class="form-group">
+				<button type="submit" class="btn btn-lg btn-block create-account"><i class="fa fa-user"></i> <?php echo trans('invoice.create_new_account'); ?></button>	
+			</div>			
+		</div>			
+		
+	<?php echo Form::close(); ?>
+
+	
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,168 @@
+<div class="table-responsive">
+	<table class="table table-striped solsoTable">
+		<thead>
+			<tr>
+				<th><?php echo trans('invoice.crt'); ?>.</th>
+				<th class="col-md-1"><?php echo trans('invoice.number'); ?></th>
+				<th><?php echo trans('invoice.client'); ?></th>
+				<th class="col-md-1 text-right"><?php echo trans('invoice.amount'); ?></th>
+				<th class="col-md-1 text-right"><?php echo trans('invoice.paid'); ?></th>
+				<th class="col-md-1 text-right"><?php echo trans('invoice.balance'); ?></th>
+				<th class="col-md-1 text-center"><?php echo trans('invoice.due_date'); ?></th>
+				<th class="small"><?php echo trans('invoice.status'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="xs-small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+				<th class="small"><?php echo trans('invoice.action'); ?></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+		
+		<?php foreach($invoices as $crt => $v): ?>
+		
+			<tr>
+				<td>
+					<?php echo $crt+1; ?>
+
+				</td>
+
+				<td>
+					<?php echo isset($invoiceSettings->code) ? $invoiceSettings->code : ''; ?> <?php echo $v->number; ?>
+
+				</td>
+				
+				<td>
+					<?php echo $v->client; ?>
+
+				</td>						
+				
+				<td class="text-right">
+					<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->amount; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?> 
+				</td>					
+				
+				<td class="text-right">
+					<?php echo $v->position == 1 ? $v->currency : ''; ?> <?php echo $v->paid; ?> <?php echo $v->position == 2 ? $v->currency : ''; ?>
+
+				</td>						
+				
+				<td class="text-right">
+					<?php echo $v->position == 1 ? $v->currency : ''; ?> 
+					
+					<?php if( $v->status == 'paid' ): ?>
+						0
+					<?php else: ?>
+						- <?php echo round($v->amount, 2) - round($v->paid, 2); ?>
+
+					<?php endif; ?>
+					
+					<?php echo $v->position == 2 ? $v->currency : ''; ?>
+
+				</td>						
+				
+				<td class="text-center">
+					<?php echo $v->due_date; ?>
+
+				</td>	
+				
+				<td>
+					<span class="label label-<?php echo str_replace(' ', '-', $v->status); ?> ">
+						<?php echo trans('invoice.' . str_replace(' ', '_', $v->status)); ?>
+
+					</span>
+				</td>						
+
+				<td>
+					<button class="btn btn-default solsoConfirm" data-toggle="modal" 
+					title="<?php echo trans('invoice.quick_action'); ?>" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.change_status'); ?>"
+					data-target="#solsoChangeStatus" data-url="<?php echo URL::to('invoice/edit-status/' . $v->id); ?>">
+						<i class="fa fa-edit"></i>
+					</button>	
+				</td>						
+				
+				<td>
+					<button class="btn btn-default solsoConfirm" data-toggle="modal" 
+					title="<?php echo trans('invoice.quick_action'); ?>" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.change_due_date'); ?>"
+					data-target="#solsoChangeDueDate" data-url="<?php echo URL::to('invoice/edit-due-date/' . $v->id); ?>">
+						<i class="fa fa-calendar"></i>
+					</button>	
+				</td>
+				
+				<td>
+					<?php if( $v->status != 'paid' && $v->status != 'cancelled'  ): ?>
+						<button class="btn btn-default solsoConfirm" data-toggle="modal" 
+						title="<?php echo trans('invoice.quick_action'); ?>" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.add_payment'); ?>"
+						data-target="#solsoAddPayment" data-url="<?php echo URL::to('invoice/add-payment/' . $v->id); ?>">
+							<i class="fa fa-plus"></i>
+						</button>
+					<?php else: ?>
+						<button class="btn btn-default disabled">
+							<i class="fa fa-ban"></i>
+						</button>
+					<?php endif; ?>								
+				</td>						
+
+				<td>		
+					<div class="dropdown">
+						<button class="btn solso-pdf dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+							<?php echo trans('invoice.export'); ?>
+
+							<span class="caret"></span>
+						</button>
+					
+						<ul class="dropdown-menu dropdown-menu-right" role="menu" aria-labelledby="dropdownMenu1">
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="<?php echo URL::to('pdf/' . $v->id); ?>">
+									<?php echo trans('invoice.export_pdf'); ?>
+
+								</a>
+							</li>
+							
+							<li role="presentation">
+								<a role="menuitem" tabindex="-1" href="<?php echo URL::to('excel/' . $v->id); ?>">
+									<?php echo trans('invoice.export_excel'); ?>
+
+								</a>
+							</li>
+						</ul>
+					</div>				
+				</td>				
+				
+				<td>		
+					<button class="btn btn-default solsoConfirm" data-toggle="modal" data-target="#solsoSendEmail" data-url="<?php echo URL::to('email/' . $v->id); ?>" 
+					title="<?php echo trans('invoice.quick_action'); ?>" data-popover="popover" data-placement="top" data-content="<?php echo trans('invoice.email_to_client'); ?>">
+						<i class="fa fa-envelope"></i>
+					</button>		
+				</td>						
+
+				<td>		
+					<a class="btn btn-info" href="<?php echo URL::to('invoice/' . $v->id); ?>">
+						<i class="fa fa-eye"></i> <?php echo trans('invoice.show'); ?>
+
+					</a>
+				</td>						
+
+				<td>							
+					<a class="btn btn-primary" href="<?php echo URL::to('invoice/' . $v->id . '/edit'); ?>">
+						<i class="fa fa-edit"></i> <?php echo trans('invoice.edit'); ?>
+
+					</a>
+				</td>						
+
+				<td>							
+					<button class="btn btn-danger solsoConfirm" data-toggle="modal" data-target="#solsoDeleteModal" data-url="<?php echo URL::to('invoice/' . $v->id); ?>">
+						<i class="fa fa-trash"></i> <?php echo trans('invoice.delete'); ?>
+
+					</button>		
+				</td>
+			</tr>
+			
+		<?php endforeach; ?>
+		
+		</tbody>
+	</table>	
+</div>

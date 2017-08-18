@@ -1,0 +1,62 @@
+.jumbotron {
+	background: radial-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2) 60%, rgba(255, 255, 255, 0)) repeat scroll 0 0%, url("../img/black_paper.png") repeat scroll 0 0 rgba(0, 0, 0, 0);
+    margin: 0;
+	padding-top: 80px;
+	padding-bottom: 80px;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.jumbotron h1 a {
+	color: #FFF !important;
+	text-shadow: 1px 1px 1px #000;
+} 
+.jumbotron h2,
+.jumbotron h3,
+.jumbotron h4,
+#website label {
+	color: #DDD !important;
+	text-shadow: 1px 1px 1px #000;
+}
+
+.jumbotron p {
+	font-size: 16px;
+}
+
+#website .thumbnail > i {
+	color: #CC0000;
+    font-size: 60px;
+    padding: 20px;
+    vertical-align: middle;	
+}
+
+
+.solso-btn-lg {
+	color: #FFFFFF;
+	display: block;
+    font-size: 22px;
+    line-height: 1.33;
+    padding: 14px 20px;
+	margin-bottom: 20px;
+}
+
+.sign-in {
+	background: #f98349;
+	color: #FFFFFF;	
+}
+.sign-in:hover, 
+.sign-in:focus, 
+.sign-in .active {
+	background: #F97333;
+	color: #FFFFFF;
+}
+
+.create-account{
+	background: #31c1ab;
+	color: #FFFFFF;
+}
+.create-account:hover, 
+.create-account:focus, 
+.create-account .active {
+	background: #2CAD99;
+	color: #FFFFFF;
+}

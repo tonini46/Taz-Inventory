@@ -1,0 +1,27 @@
+<div class="modal fade" id="solsoSendEmail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title"><?php echo trans('invoice.mail_dialog'); ?></h4>
+        </div>
+
+        <div class="modal-body">
+            <p><?php echo trans('invoice.mail_dialog_01'); ?></p>
+            <p><?php echo trans('invoice.mail_dialog_02'); ?><p>
+        </div>
+
+        <div class="modal-footer">
+			
+			<?php echo Form::open(array('id' => 'solsoFormID')); ?>
+
+				
+				<button type="button" class="btn btn-primary" data-dismiss="modal"><?php echo trans('invoice.no'); ?></button>
+				<button type="submit" class="btn btn-danger pull-right"><?php echo trans('invoice.yes'); ?></button>
+					
+			<?php echo Form::close(); ?>									
+
+        </div>
+    </div>
+</div>
+</div>

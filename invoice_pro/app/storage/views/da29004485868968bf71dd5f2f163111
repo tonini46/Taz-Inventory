@@ -1,0 +1,37 @@
+<div class="col-md-12 col-lg-8">
+	<h3><?php echo trans('invoice.invitation'); ?></h3>
+
+	<?php if($newsletter): ?>
+
+		<?php echo Form::open(array('url' => 'newsletter/' . $newsletter->id, 'role' => 'form', 'method' => 'PUT', 'class' => 'solsoForm')); ?>
+
+	
+	<?php else: ?>	
+	
+		<?php echo Form::open(array('url' => 'newsletter', 'role' => 'form', 'class' => 'solsoForm')); ?>
+
+		
+	<?php endif; ?>
+
+		<div class="form-group">
+			<label for="title"><?php echo trans('invoice.title'); ?></label>
+			<input type="text" name="title" class="form-control required" autocomplete="off" value="<?php echo Input::old('title') ? Input::old('title') : isset($newsletter->title) ? $newsletter->title : ''; ?>">
+			
+			<?php echo $errors->first('title', '<p class="error">:messages</p>');?>
+		</div>
+		
+		<div class="form-group">
+			<label for="content"><?php echo trans('invoice.content'); ?></label>
+			<textarea name="content" class="form-control solsoEditor"  rows="7" autocomplete="off"><?php echo Input::old('content') ? Input::old('content') :isset($newsletter->content) ? $newsletter->content : ''; ?></textarea>
+			
+			<?php echo $errors->first('content', '<p class="error">:messages</p>');?>
+		</div>	
+		
+		<div class="form-group">
+			<button type="submit" class="btn btn-success" type="button"><i class="fa fa-save"></i> <?php echo trans('invoice.save'); ?></button>
+		</div>			
+		
+	<?php echo Form::close(); ?>
+
+	
+</div>

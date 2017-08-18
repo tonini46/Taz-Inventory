@@ -1,0 +1,538 @@
+<script type="text/javascript" src="<?php echo URL::to('public/js/jquery.js');?>"></script>
+<script type="text/javascript" src="<?php echo URL::to('public/js/bootstrap.min.js');?>"></script>
+
+	<!-- BOOTSTRAP-->
+	<script>
+		$( '[data-popover="popover"]' ).popover({trigger: "hover"});
+	</script>	
+	<!-- END BOOTSTRAP -->
+	
+	
+	<!-- PARSLEY VALIDATION -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/parsley/parsley.js');?>"></script>
+	<script>	
+		$(".solsoForm").parsley({
+			successClass: "has-success",
+			errorClass: "has-error",
+			classHandler: function (el) {
+				return el.$element.closest(".form-group, td");
+			}, 
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group, td");
+			}
+		});
+	</script>	
+	<!-- END PARSLEY VALIDATION -->
+
+	
+	<!-- DATA TABLES -->
+	<script type='text/javascript' src="<?php echo URL::to('public/vendor/datatables/datatables.min.js');?>"></script>  
+	<script type='text/javascript' src="<?php echo URL::to('public/vendor/datatables/datatables-bootstrap.js');?>"></script>    
+	<script>
+		$('.solsoTable').dataTable();
+	</script>
+	<!-- END DATA TABLES -->	
+	
+	
+	<!-- CKEDITOR -->
+    <script type='text/javascript' src="<?php echo URL::to('public/vendor/ckeditor/ckeditor.js');?>"></script>
+	<script type='text/javascript' src="<?php echo URL::to('public/vendor/ckeditor/adapters/jquery.js');?>"></script>
+	<script>
+	$(function(){
+		UPLOADCARE_PUBLIC_KEY = "demopublickey";
+
+        if ($('.solsoEditor').length) {
+            $( 'textarea.solsoEditor' ).ckeditor({
+                uiColor: '#9AB8F3',
+                height: 400,
+            });
+        }
+
+        if ($('.solsoSimplyEditor').length) {
+            $( 'textarea.solsoSimplyEditor' ).ckeditor({
+                uiColor: '#9AB8F3',
+                height: 200,
+                toolbar: 'Custom',
+                toolbarStartupExpanded : false,
+                toolbarCanCollapse  : false,
+                toolbar_Custom: [
+                                   ['Bold','Italic','Underline','StrikeThrough','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-','Print'],
+                                   ['NumberedList','BulletedList','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock', 'Smiley'],
+                                ],
+            });
+        }
+	});
+	</script>
+	<!-- END CKEDITOR -->	
+	
+	
+	<!-- GOOGLE CHARTS -->
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+		<?php if( Request::segment(1) == 'dashboard' || Request::segment(1) == 'report' || Request::segment(1) == 'admin' ): ?> 
+			google.load("visualization", "1", {packages:["corechart"]});
+			google.setOnLoadCallback(drawChart);
+
+			function drawChart() {
+				/* === INVOICES === */
+				var data = google.visualization.arrayToDataTable(
+					eval($('.chartInvoicesLastMonth').val())
+				);
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+								   {
+									calc: "stringify",
+									sourceColumn: 1,
+									type: "string",
+									role: "annotation" },
+								   2]);			
+				var options = {
+					fontName: 'Dosis',
+					fontSize: 14,
+					legend: { position: "none" },
+					title: "<?php echo date('F Y'); ?>",
+				};
+				var chart = new google.visualization.ColumnChart(document.getElementById('chartInvoicesLastMonth'));
+				chart.draw(view, options);
+				
+				var data = google.visualization.arrayToDataTable(
+					eval($('.chartInvoicesLastYear').val())
+				);
+				var view = new google.visualization.DataView(data);
+				view.setColumns([0, 1,
+								   {
+									calc: "stringify",
+									sourceColumn: 1,
+									type: "string",
+									role: "annotation" },
+								   2]);					
+				var options = {
+					fontName: 'Dosis',
+					fontSize: 14,			
+					title: "<?php echo date('Y'); ?>",
+					legend: { position: "none" },
+				};
+				var chart = new google.visualization.ColumnChart(document.getElementById('chartInvoicesLastYear'));
+				chart.draw(view, options);		
+				/* === END INVOICES === */
+
+				
+				<?php if( Request::segment(1) == 'report' ): ?>
+					/* === AMOUNTS === */
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartAmountLastMonth').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);					
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,			
+						title: "<?php echo date('F Y'); ?>",
+						legend: { position: "none" },
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartAmountLastMonth'));
+					chart.draw(view, options);	
+					
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartAmountLastYear').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);			
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,			
+						title: "<?php echo date('Y'); ?>",
+						legend: { position: "none" },
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartAmountLastYear'));
+					chart.draw(view, options);	
+					/* === END AMOUNTS === */			
+					
+					/* === CLIENTS === */
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartClientsLastMonth').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);					
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,			
+						title: "<?php echo date('F Y'); ?>",
+						legend: { position: "none" },
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartClientsLastMonth'));
+					chart.draw(view, options);	
+					
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartClientsLastYear').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);					
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,			
+						title: "<?php echo date('Y'); ?>",
+						legend: { position: "none" },
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartClientsLastYear'));
+					chart.draw(view, options);	
+					/* === END CLIENTS === */
+				<?php endif; ?>
+				
+				
+				<?php if( Request::segment(1) == 'admin' ): ?>
+					/* === USERS === */
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartUsersLastMonth').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);			
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,
+						legend: { position: "none" },
+						title: "<?php echo date('F Y'); ?>",
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartUsersLastMonth'));
+					chart.draw(view, options);
+					
+					var data = google.visualization.arrayToDataTable(
+						eval($('.chartUsersLastYear').val())
+					);
+					var view = new google.visualization.DataView(data);
+					view.setColumns([0, 1,
+									   {
+										calc: "stringify",
+										sourceColumn: 1,
+										type: "string",
+										role: "annotation" },
+									   2]);					
+					var options = {
+						fontName: 'Dosis',
+						fontSize: 14,			
+						title: "<?php echo date('Y'); ?>",
+						legend: { position: "none" },
+					};
+					var chart = new google.visualization.ColumnChart(document.getElementById('chartUsersLastYear'));
+					chart.draw(view, options);		
+					/* === END USERS === */	
+				<?php endif; ?>	
+			}
+		<?php endif; ?>
+    </script>
+    <!-- END GOOGLE CHARTS -->	
+	
+	
+	<!-- RENDRO EASY PIE CHART -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/rendro-easy-pie-chart/dist/jquery.easing.min.js');?>"></script>
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/rendro-easy-pie-chart/dist/jquery.easypiechart.min.js');?>"></script>
+	<script type="text/javascript">
+		$('.chart').easyPieChart({
+			easing: 'easeOutBounce',
+			onStep: function(from, to, percent) {
+				$(this.el).find('.percent').text(Math.round(percent));
+			}
+		});
+	</script>	
+	<!-- END RENDRO EASY PIE CHART -->
+	
+	
+	<!-- DATEPICKER -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/datepicker/js/bootstrap-datepicker.js');?>"></script>
+	<script>	
+		$('.datepicker').datepicker({
+			format: 'yyyy-mm-dd'
+		});
+
+		$('.datepicker').on('changeDate', function() {
+			$(this).datepicker('hide');
+		});	
+	</script>		
+	<!-- END DATEPICKER -->
+	
+	
+	<!-- TIMEPICKER -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/timepicker/js/bootstrap-timepicker.min.js');?>"></script>
+	<script>	
+		$('.timepicker').timepicker();		
+	</script>		
+	<!-- END TIMEPICKER -->
+	
+
+	<!-- SELECT 2 -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/select2/select2.js');?>"></script>
+	<script>	
+		if ($('.solsoSelect2').length) {
+			$( ".solsoSelect2" ).select2();
+		}
+	</script>	
+	<!-- END SELECT 2 -->
+	
+	
+	<!-- BOOTSTRAP FILEINPUT -->
+	<script type="text/javascript" src="<?php echo URL::to('public/vendor/bootstrap-fileinput/js/fileinput.min.js');?>"></script>
+	<script>	
+		$(".solsoFileInput").fileinput({
+			allowedFileExtensions: ['jpg', 'jpeg', 'gif', 'png', 'bmp']
+		});		
+	</script>		
+	<!-- END BOOTSTRAP FILEINPUT -->
+	
+	
+	<!-- === SOLUTII SOFT === -->
+	<script>
+		/* === PRODUCT === */
+		$( document ).on('click', '.solsoShowDetails', function(){
+			$.ajax({
+				url: "product/" + $(this).attr('data-value'),
+				type: 'get',
+				dataType: 'json',
+				data: { product: $(this).val() },
+				success:function(data) {
+					$( '.product-name' ).text(data['name']);
+					$( '.product-price' ).text(data['price']);
+					$( '.product-description' ).text(data['description']);
+				}
+			});
+		});
+
+		$( document ).on('click', '.solsoSave', function(e){
+			e.preventDefault();
+			
+			valid = $(".solsoFormProduct").parsley().validate();
+			
+			if (valid) {
+				$.ajax({
+					url: 	"<?php echo URL::route('product.store'); ?>",
+					type: 	'post',
+					data: 	$('.solsoFormProduct').serialize(),
+					cache: 	false,
+					dataType: 'json',
+					success:function(data) {
+						if (data == 0) {
+							console.log('error');
+						} else {
+							$('#solsoCreateProduct').modal('hide');
+
+							options = "<option><?php echo trans('invoice.choose'); ?></option>";
+							for (var i = 0; i < data.length; i++) {
+								options += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
+							}
+							$('.solsoParent tr:last-child').find("[name='products[]']").html(options);
+							$('.solsoFormProduct').trigger('reset');
+							$(".solsoFormProduct").parsley().reset();
+						}
+					}
+				});	
+			}
+			
+			return false;
+		});
+		
+		$('#solsoCreateProduct').on('hidden.bs.modal', function (e) {
+			$('.solsoFormProduct').trigger('reset');
+			$(".solsoFormProduct").parsley().reset();
+		})		
+		/* === END PRODUCT === */
+	
+		/* === CLONE ROW === */
+		$('#createClone').on('click', function(e) {
+			$( '.solsoSelect2.solsoCloneSelect2').select2('destroy');
+			
+			$( '.solsoParent' )
+				.append( '<tr>' + $( 'tr.solsoChild' ).html()  + '</tr>' );
+		
+			$( '.crt' ).each(function( index ) {
+				$( this ).text(index+1);
+				
+				if (index > 0) {
+					$( this ).parent().find( '.removeClone' ).removeClass('disabled');
+				}
+			});			
+			
+			$( ".solsoSubTotal" ).last().text('0.00');
+			
+			$( '.solsoCloneSelect2' ).select2();
+
+			return false;
+		});
+		
+		$( document ).on('click', '.removeClone', function() {
+			$(this).parents().eq(1).remove();
+			
+			$( '.crt' ).each(function( index ) {
+				$( this ).text(index+1);
+			});				
+			
+			if ( $(this).attr('data-id').length ) {
+				$.ajax({
+					url: "<?php echo URL::route('invoice.deleteProduct'); ?>",
+					type: 'post',
+					dataType: 'json',
+					data: { id: $(this).attr('data-id') },
+					success:function(data) {
+					}
+				});
+			}
+		});
+		/* === END CLONE ROW === */	
+		
+		/* === INVOICE === */
+		$( document ).on('change', '.solsoCloneSelect2', function() {
+			inputPrice = $(this).closest('tr').find("[name='price[]']");
+			
+			$.ajax({
+				url: "<?php echo URL::route('ajax.productPrice'); ?>",
+				type: 'post',
+				dataType: 'json',
+				data: { product: $(this).val() },
+				success:function(data) {
+					inputPrice.val(data['price']);
+				}
+			});
+		});		
+		
+		$( document ).on('change', '.solsoCurrencyEvent', function() {
+			if ( $(this).val() != '') {
+				$( '.solsoCurrency' ).text( $( "[name='currency'] option[value='" + $(this).val() + "']").text() );
+			}
+		});	
+		
+		$( document ).on("click change paste keyup", ".solsoEvent", function() {
+			var qty			= $(this).closest('tr').find("[name='qty[]']").val();
+			var price		= $(this).closest('tr').find("[name='price[]']").val();
+			var tax			= $(this).closest('tr').find("[name='taxes[]']").val();
+			var discount	= $(this).closest('tr').find("[name='discount[]']").val();	
+			var type		= $(this).closest('tr').find("[name='discountType[]']").val();	
+			var totalDisc	= $(this).closest('tr').find("[name='invoiceDiscount']").val();	
+			var invoiceType	= $(this).closest('tr').find("[name='invoiceDiscountType']").val();	
+			var subTotal	= 0;
+			var total		= 0;
+			
+			itemQty			= parseFloat(qty)  > 0 		? parseFloat(qty).toFixed(2) 		: 0;
+			itemPrice		= parseFloat(price)  > 0 	? parseFloat(price).toFixed(2) 		: 0;
+			itemTax			= parseFloat(tax) > 0 		? parseFloat(tax).toFixed(2) 		: 0;
+			itemDiscount	= parseFloat(discount) > 0	? parseFloat(discount).toFixed(2)	: 0;
+			invoiceDiscount	= parseFloat(totalDisc) > 0	? parseFloat(totalDisc).toFixed(2)	: 0;
+			
+			solsoValue 			= itemQty * itemPrice;
+			solsoTax			= solsoValue * (itemTax / 100);
+			solsoPrice			= solsoValue + solsoTax;
+			solsoDiscount		= itemDiscount;
+			solsoTotalDiscount	= invoiceDiscount;
+			
+			if ( type == 2 ) {
+				solsoDiscount	= solsoPrice * (itemDiscount / 100);
+			}
+			
+			subTotal		= solsoPrice - solsoDiscount;
+			
+			$(this).closest('tr').find(".solsoSubTotal").text( subTotal.toFixed(2) );
+			
+			$( '.solsoSubTotal' ).each(function() {
+				total += parseFloat($(this).text());
+			});
+			
+			if ( invoiceType == 2 ) {
+				solsoTotalDiscount = total * (invoiceDiscount / 100);
+			}
+			
+			$( '.solsoTotal' ).text( (total - solsoTotalDiscount).toFixed(2) );
+		});
+		/* === END INVOICE === */
+
+		/* === SETTINGS === */
+		$( document ).on('click', '.solsoCurrencySettings', function(e) {
+			e.preventDefault();
+			
+			var id	 	= $(this).attr('data-id');
+			var name 	= $(this).closest('label').find("input[type='radio']").attr('name');
+			var value 	= $(this).closest('label').find("input[type='radio']").val();
+			var url		= '';
+		
+			if ( name == 'position') {
+				goToUrl = "<?php echo URL::route('currency.currencyPosition'); ?>";
+			}
+			
+			if ( name == 'default') {
+				goToUrl = "<?php echo URL::route('setting.defaultCurrency'); ?>";
+			}			
+		
+			$.ajax({
+				url: goToUrl,
+				type: 'post',
+				dataType: 'html',
+				data: { itemID: id, itemValue: value  },
+				success:function(data) {
+					$('#tab5').html(data);
+				}
+			});
+			
+			solsoAlerts();
+		});
+		/* === END SETTINGS === */
+	</script>
+
+	
+	<script>
+		/* === ADD TEXT EDITOR TO TEXTAREEA === */
+		// uncomment next line if you want text-editor
+		// $( 'textarea').addClass('solsoSimplyEditor');
+		/* === END ADD TEXT EDITOR TO TEXTAREEA === */
+	
+		/* === CLOSE ALERTS === */
+		function solsoAlerts()
+		{
+			window.setTimeout(function() {
+				$(".solsoHideAlert").fadeTo(500, 0).slideUp(500, function(){
+					$(this).remove(); 
+				});
+			}, 5000);		
+		}
+		
+		solsoAlerts();
+		/* === END CLOSE ALERTS === */
+		
+		/* === MODAL YES/NO === */
+		$( document ).on('click', '.solsoConfirm', function(){
+			$(" #solsoFormID ").prop('action', $(this).attr('data-url'));
+		});
+		/* === MODAL YES/NO === */
+		
+		// $(document).ready(function () { $('body').hide().fadeIn(1500).delay(6000)});
+	</script>
+	<!-- === END SOLUTII SOFT === -->
+	
+	
+</body>
+</html>

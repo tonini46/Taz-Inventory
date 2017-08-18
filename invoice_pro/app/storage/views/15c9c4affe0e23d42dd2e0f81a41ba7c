@@ -1,0 +1,93 @@
+<?php $__env->startSection('content'); ?>
+
+	<div class="col-md-12">
+		<h1><i class="fa fa-cogs"></i> <?php echo trans('invoice.settings'); ?></h1>
+	</div>		
+	
+	<div class="col-md-12">
+		<ul id="solsoTabs" class="nav nav-tabs" role="tablist" id="myTab">
+			<li class="active">
+				<a href="#tab1" role="tab" data-toggle="tab">
+					<?php if(Auth::user()->role_id == 2): ?>
+						<?php echo trans('invoice.my_company'); ?>
+
+					<?php endif; ?>
+					
+					<?php if(Auth::user()->role_id == 3): ?>
+						<?php echo trans('invoice.name'); ?>
+
+					<?php endif; ?>
+				</a></li>
+		
+			<?php if(Auth::user()->role_id == 2): ?>
+
+				<li><a href="#tab2" role="tab" data-toggle="tab"><?php echo trans('invoice.logo'); ?></a></li>
+				<li><a href="#tab3" role="tab" data-toggle="tab"><?php echo trans('invoice.invoice'); ?></a></li>
+				<li><a href="#tab4" role="tab" data-toggle="tab"><?php echo trans('invoice.invoice_tax'); ?></a></li>
+				<li><a href="#tab5" role="tab" data-toggle="tab"><?php echo trans('invoice.currencies'); ?></a></li>
+				<li><a href="#tab6" role="tab" data-toggle="tab"><?php echo trans('invoice.payments'); ?></a></li>
+				<li><a href="#tab7" role="tab" data-toggle="tab"><?php echo trans('invoice.invitation'); ?></a></li>
+			
+			<?php endif; ?>
+			
+			<li><a href="#tab8" role="tab" data-toggle="tab"><?php echo trans('invoice.languages'); ?></a></li>
+			<li><a href="#tab9" role="tab" data-toggle="tab"><?php echo trans('invoice.account'); ?></a></li>
+			<li><a href="#tab10" role="tab" data-toggle="tab"><?php echo trans('invoice.password'); ?></a></li>
+			<li><a href="#tab11" role="tab" data-toggle="tab"><?php echo trans('invoice.application'); ?></a></li>
+		</ul>
+		
+		<div class="row tab-content">
+		
+			<div class="tab-pane active" id="tab1">
+				<?php echo $__env->make('settings.company', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			</div>		
+		
+			<?php if(Auth::user()->role_id == 2): ?>
+			
+				<div class="tab-pane" id="tab2">
+					<?php echo $__env->make('settings.logo', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>	
+
+				<div class="tab-pane" id="tab3">
+					<?php echo $__env->make('settings.invoice', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>
+
+				<div class="tab-pane" id="tab4">
+					<?php echo $__env->make('settings.tax', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>			
+				
+				<div class="tab-pane" id="tab5">
+					<?php echo $__env->make('settings.currency', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>	
+
+				<div class="tab-pane" id="tab6">
+					<?php echo $__env->make('settings.payment', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>					
+				
+				<div class="tab-pane" id="tab7">
+					<?php echo $__env->make('settings.invitation', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+				</div>				
+			
+			<?php endif; ?>
+			
+			<div class="tab-pane" id="tab8">
+				<?php echo $__env->make('settings.language', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			</div>	
+
+			<div class="tab-pane" id="tab9">
+				<?php echo $__env->make('settings.account', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			</div>	
+
+			<div class="tab-pane" id="tab10">
+				<?php echo $__env->make('settings.password', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			</div>	
+
+			<div class="tab-pane" id="tab11">
+				<?php echo $__env->make('settings.user-mode', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+			</div>				
+		</div>		
+	</div>				
+
+	<?php echo $__env->make('_modals/delete', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+		
+<?php $__env->stopSection(); ?>
